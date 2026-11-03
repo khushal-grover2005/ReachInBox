@@ -1,0 +1,196 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Install workspace dependencies",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"install",
+				"--no-audit",
+				"--no-fund"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Typecheck workspaces",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"typecheck"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Build workspaces",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"build"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Start local services",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"compose",
+				"up",
+				"-d"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Run dashboard frontend",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"dev",
+				"--workspace",
+				"@reachinbox/frontend"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Launch dashboard",
+			"type": "shell",
+			"command": "npm run dev --workspace @reachinbox/frontend",
+			"args": [],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Inspect current web listener",
+			"type": "shell",
+			"command": "netstat -ano | findstr :5173",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Inspect current web process",
+			"type": "shell",
+			"command": "Get-CimInstance Win32_Process | Where-Object { $_.ProcessId -eq 16416 } | Format-List ProcessId,CommandLine,ExecutablePath",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Inspect active compile process",
+			"type": "shell",
+			"command": "Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'node.exe' -and $_.CommandLine -match 'tsc|npm run typecheck' } | Format-List ProcessId,CommandLine",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Final workspace typecheck",
+			"type": "shell",
+			"command": "npm run typecheck",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Final workspace build",
+			"type": "shell",
+			"command": "npm run build",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Check backend dependency availability",
+			"type": "shell",
+			"command": "Get-Command docker,postgres,pg_ctl,redis-server,redis-cli -ErrorAction SilentlyContinue | Select-Object Name,Source; netstat -ano | findstr \":4000 :5432 :6379 :9200\"",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Probe backend service ports",
+			"type": "shell",
+			"command": "Get-Command docker,postgres,pg_ctl,redis-server,redis-cli -ErrorAction SilentlyContinue | Select-Object Name,Source; @(4000,5432,6379,9200) | ForEach-Object { [PSCustomObject]@{Port=$_;Open=(Test-NetConnection 127.0.0.1 -Port $_ -InformationLevel Quiet)} } | Format-Table -AutoSize",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Check local service installers",
+			"type": "shell",
+			"command": "Get-Command wsl,winget,choco,scoop -ErrorAction SilentlyContinue | Select-Object Name,Source; wsl --list --verbose",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Check embedded service ports",
+			"type": "shell",
+			"command": "netstat -ano | findstr :5432",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Inspect embedded service startup",
+			"type": "shell",
+			"command": "Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -match 'local-infrastructure|postgres|memurai|redis' } | Select-Object ProcessId,Name,CommandLine | Format-List",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Start embedded services capture",
+			"type": "shell",
+			"command": "npm run dev:services --workspace @reachinbox/backend",
+			"args": [],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Verify OAuth and search code",
+			"type": "shell",
+			"command": "npm run typecheck",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Build after OAuth config",
+			"type": "shell",
+			"command": "npm run build",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		}
+	]
+}

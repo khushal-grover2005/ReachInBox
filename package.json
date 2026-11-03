@@ -1,0 +1,20 @@
+{
+  "name": "reachinbox-scheduler",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": ["backend", "frontend"],
+  "scripts": {
+    "dev": "concurrently -k -n infra,backend,web \"npm:dev:infra\" \"npm:dev:backend:wait\" \"npm:dev:frontend\"",
+    "dev:infra": "npm run dev:services --workspace @reachinbox/backend",
+    "dev:backend": "npm run dev --workspace @reachinbox/backend",
+    "dev:backend:wait": "wait-on tcp:5432 tcp:6379 && npm run dev:backend",
+    "dev:frontend": "npm run dev --workspace @reachinbox/frontend",
+    "dev:compose": "concurrently -k -n backend,web \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "wait-on": "^8.0.2"
+  }
+}
