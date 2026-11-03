@@ -17,6 +17,7 @@ import { searchEmails } from './search.js';
 import type { SessionUser } from './types.js';
 
 const app = express();
+app.set('trust proxy', 1);
 const PgSession = connectPgSimple(session);
 const sessionStore = new PgSession({ pool, createTableIfMissing: true });
 
@@ -29,8 +30,8 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'none',
+    secure: true,
     maxAge: 7 * 24 * 60 * 60 * 1000,
   },
 }));
