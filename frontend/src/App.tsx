@@ -158,7 +158,7 @@ function App() {
           <button className={`nav-item ${view === 'sent' ? 'active' : ''}`} onClick={() => { setView('sent'); setSearch(''); }}><Send size={17} /><span>Sent emails</span><span className="nav-count">{sentCount}</span></button>
         </nav>
         <p className="nav-caption nav-caption-lower">TOOLS</p>
-        <a className="nav-item nav-anchor" href="http://localhost:4000/admin/queues" target="_blank" rel="noreferrer"><Activity size={17} /><span>Queue monitor</span><ArrowUpRight size={13} /></a>
+        <a className="nav-item nav-anchor" href="https://reachinbox-qkly.onrender.com/admin/queues" target="_blank" rel="noreferrer"><Activity size={17} /><span>Queue monitor</span><ArrowUpRight size={13} /></a>
         <button className="nav-item" onClick={() => setToast(slack.connected ? 'Slack rate-limit alerts are active.' : 'Connect Slack from the top bar to receive hourly limit alerts.')}><Settings2 size={17} /><span>Integrations</span></button>
         <div className="sidebar-bottom">
           <div className="delivery-note"><span className="delivery-icon"><Sparkles size={16} /></span><div><strong>Sending smoothly</strong><small>Queue is operational</small></div><span className="online-dot" /></div>
